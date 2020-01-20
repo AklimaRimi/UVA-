@@ -1,0 +1,86 @@
+#include<bits/stdc++.h>//rimi
+using namespace std;
+#define max 100005
+int ar[max];
+vector<int >tree(max*4);
+int k=1;
+pair<int, int> t[4*100];
+
+pair<int, int> combine(pair<int, int> a, pair<int, int> b) {
+    if (a.first > b.first)
+
+        return a;
+    if (b.first > a.first)
+        return b;
+    return make_pair(a.first, a.second + b.second);
+}
+
+void build(int a[], int v, int tl, int tr) {
+    if (tl == tr) {
+        t[v] = make_pair(a[tl], 1);
+    } else {
+        int tm = (tl + tr) / 2;
+        build(a, v*2, tl, tm);
+        build(a, v*2+1, tm+1, tr);
+        t[v] = combine(t[v*2], t[v*2+1]);
+    }
+}
+
+pair<int, int> get_max(int v, int tl, int tr, int l, int r) {
+    if (l > r)
+        return make_pair(-INT_MAX, 0);
+    if (l == tl && r == tr)
+        return t[v];
+    int tm = (tl + tr) / 2;
+
+    return combine(get_max(v*2, tl, tm, l,r),get_max(v*2+1, tm+1, tr,l, r));
+}
+
+void update(int v, int tl, int tr, int pos, int new_val) {
+    if (tl == tr) {
+        t[v] = make_pair(new_val, 1);
+    } else {
+        int tm = (tl + tr) / 2;
+        if (pos <= tm)
+            update(v*2, tl, tm, pos, new_val);
+        else
+            update(v*2+1, tm+1, tr, pos, new_val);
+        t[v] = combine(t[v*2], t[v*2+1]);
+    }
+}
+int main()
+{
+
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+	unsigned long  long int x,y,z,m,a,b,c,t,i,j,n,k,h,e,w,p,q,l,o,d;
+	string s1,s,s2,str;
+ //tree.resize(4*n);
+    map<char, int>ma;
+   while(cin>>t){
+        if(t==0)
+        {
+            break;
+        }
+   for(i=1;i<=t;i++)
+   {
+       cin>>a>>b>>c;
+       k =1;
+   a = a%c;
+   while(b>0)
+   {
+       if(b&1)
+       {
+           k = (k*a)%c;
+       }
+       a = (a*a)%c;
+       b>>=1;
+
+   }
+   cout<<k<<endl;
+
+   }
+   }
+    return 0;
+}
